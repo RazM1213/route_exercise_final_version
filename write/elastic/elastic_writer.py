@@ -9,7 +9,6 @@ from elasticsearch import Elasticsearch
 from config import elastic_config
 from consts.formats import DATETIME_FORMAT, ELASTIC_DATETIME_FORMAT
 from models.output import Output
-from write.elastic.mapping import mapping
 from write.writer import Writer
 
 
