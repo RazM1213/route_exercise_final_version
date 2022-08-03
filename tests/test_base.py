@@ -12,6 +12,7 @@ class TestBase(TestCase):
     _PUBLISHER = RabbitMqPublisher()
 
     def setUp(self):
+        self.get_docs(expected_docs=0)
         os.chdir(path_config.TEST_STUDENTS_DIR_PATH)
         if os.path.exists(path_config.TEST_STUDENTS_DIR_PATH):
             for file in os.listdir(path_config.TEST_STUDENTS_DIR_PATH):
