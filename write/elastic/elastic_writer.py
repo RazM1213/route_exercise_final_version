@@ -23,7 +23,7 @@ class ElasticWriter(Writer):
         return es_client
 
     def write(self, output: Output):
-        query = json.dumps(asdict(output), indent=4)
+        query = json.dumps(asdict(output, dict_factory=lambda x: {k: v for (k, v) in x if v is not None}), indent=4)
 
         ElasticWriter.get_elastic_client().index(
             index=f"{datetime.datetime.strptime(output.birthDate, '%d/%m/%Y').year}",
