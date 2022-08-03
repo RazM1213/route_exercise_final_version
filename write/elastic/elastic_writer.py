@@ -16,7 +16,7 @@ from write.writer import Writer
 class ElasticWriter(Writer):
 
     @staticmethod
-    def get_elastic_client():
+    def get_elastic_client() -> Elasticsearch:
         es_client = Elasticsearch(
             elastic_config.LOCAL_HOST,
             basic_auth=(elastic_config.USERNAME, elastic_config.PASSWORD)
@@ -26,21 +26,14 @@ class ElasticWriter(Writer):
 
     def write(self, output: Output):
         query = json.dumps(asdict(output, dict_factory=lambda x: {k: v for (k, v) in x if v is not None}), indent=4)
+
         json_query = json.loads(query)
         json_query["birthDate"] = datetime.datetime.strptime(json_query["birthDate"], DATETIME_FORMAT).strftime(ELASTIC_DATETIME_FORMAT)
 
-        index = datetime.datetime.strptime(output.birthDate, DATETIME_FORMAT).year
-
-        if index not in ElasticWriter.get_elastic_client().indices.get(index='*').body.keys():
-            ElasticWriter.get_elastic_client().indices.create(
-                index=f"{index}",
-                body=mapping
-            )
-
         ElasticWriter.get_elastic_client().index(
-            index=f"{index}",
+            index=f"{datetime.datetime.strptime(output.birthDate, DATETIME_FORMAT).year}",
             document=json.dumps(json_query),
-            id=output.studentDetails.id
+            id=output.studentDetails.id,
         )
 
         coloredlogs.install()
