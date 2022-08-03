@@ -51,11 +51,6 @@ class DataGenerator:
         total_average = average
         birth_date = datetime.datetime.strptime(generated_input[BIRTHDATE], DATETIME_FORMAT)
 
-        if birth_date.year > 2000:
-            birth_date_str = f"{birth_date.day}/{birth_date.month}/{birth_date.year - 2000}"
-        else:
-            birth_date_str = f"{birth_date.day}/{birth_date.month}/{birth_date.year - 1900}"
-
         return {
             "studentDetails": {
                 "firstName": generated_input[STUDENT_DETAILS][FIRST_NAME],
@@ -70,7 +65,7 @@ class DataGenerator:
                 }
             ],
             "totalAvg": total_average,
-            "birthDate": birth_date_str,
+            "birthDate": datetime.datetime.strftime(birth_date,DATETIME_FORMAT),
             "age": generated_input[AGE],
             "gender": gender,
             "isGoodBehaviour": is_good_behaviour

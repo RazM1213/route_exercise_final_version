@@ -16,7 +16,7 @@ class StudentTransformer(Transformer):
             self.parse_student_details(student_input),
             self.parse_subject_grades(student_input),
             self.parse_total_avg(student_input),
-            self.parse_birthdate(student_input),
+            student_input.birthDate,
             student_input.age,
             self.parse_gender(student_input),
             self.parse_is_good_behaviour(student_input),
@@ -43,15 +43,6 @@ class StudentTransformer(Transformer):
             subject_avg = OutputSubjectGrades(subject_name, avg)
             subjects_avg.append(subject_avg)
         return subjects_avg
-
-    @staticmethod
-    def parse_birthdate(student_input):
-        birth_date = datetime.strptime(student_input.birthDate, DATETIME_FORMAT)
-        if birth_date.year > 2000:
-            birth_date_str = f"{birth_date.day}/{birth_date.month}/{birth_date.year - 2000}"
-        else:
-            birth_date_str = f"{birth_date.day}/{birth_date.month}/{birth_date.year - 1900}"
-        return birth_date_str
 
     @staticmethod
     def parse_gender(student_input):
