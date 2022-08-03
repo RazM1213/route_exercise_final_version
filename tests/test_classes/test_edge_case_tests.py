@@ -31,7 +31,7 @@ class EdgeCaseTests(TestBase):
 
         self.assertEqual(1, len(self.get_docs(expected_docs=1)))
         actual_output = self.read_from_file(f"{path_config.TEST_STUDENTS_DIR_PATH}/{file_name}")
-        self.assertEqual(actual_output[IS_GOOD_BEHAVIOUR], False)
+        self.assertFalse(actual_output[IS_GOOD_BEHAVIOUR])
 
     def test_send_non_json_body_failure(self):
         input_body = """a"""
