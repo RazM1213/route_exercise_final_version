@@ -6,7 +6,7 @@ from write.folder.folder_writer import FolderWriter
 
 
 def main():
-    pipeline = Pipeline(RabbitMqReader(), FolderWriter(), StudentTransformer())
+    pipeline = Pipeline(RabbitMqReader(), ElasticWriter(), StudentTransformer())
 
     pipeline.run()
 

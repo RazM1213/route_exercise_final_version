@@ -1,6 +1,3 @@
-from datetime import datetime
-
-from consts.formats import DATETIME_FORMAT
 from mappings.gender_mapping import gender_mapping
 from models.input import Input
 from models.output import Output
