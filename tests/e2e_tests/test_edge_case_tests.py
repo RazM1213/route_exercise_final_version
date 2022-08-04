@@ -1,7 +1,6 @@
 from more_itertools import one
 
-from config import path_config
-from consts.json_fields import EXTRA_FIELD, BIRTHDATE, AGE, STUDENT_DETAILS, FIRST_NAME, LAST_NAME, BEHAVIOUR_GRADE, IS_GOOD_BEHAVIOUR, SUBJECT_GRADES, SUBJECT, GRADES, AVERAGE
+from consts.json_fields import EXTRA_FIELD, BIRTHDATE, AGE, STUDENT_DETAILS, FIRST_NAME, LAST_NAME, BEHAVIOUR_GRADE, IS_GOOD_BEHAVIOUR, SUBJECT_GRADES, GRADES, AVERAGE
 from tests.data_generator import DataGenerator
 from tests.test_base import TestBase
 
@@ -90,4 +89,3 @@ class EdgeCaseTests(TestBase):
 
         self.assertEqual(1, len(self.get_docs(expected_docs=1)))
         self.assertEqual(0, actual_output[SUBJECT_GRADES][0][AVERAGE])
-
