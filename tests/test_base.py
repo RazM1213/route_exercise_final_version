@@ -5,7 +5,8 @@ from typing import List
 from unittest import TestCase
 
 from config import path_config
-from tests.send_generated_input_script.rabbit_mq_publisher import RabbitMqPublisher
+from tests.data_generator import DataGenerator
+from tests.rabbit_mq_publisher import RabbitMqPublisher
 
 
 class TestBase(TestCase):
@@ -18,13 +19,18 @@ class TestBase(TestCase):
             for file in os.listdir(path_config.TEST_STUDENTS_DIR_PATH):
                 os.remove(os.path.join(path_config.TEST_STUDENTS_DIR_PATH, file))
 
-    def read_from_file(self, filepath: str) -> json:
+    def read_from_file(self, filename: str) -> json:
         self.get_docs(expected_docs=1)
 
-        with open(filepath, "r") as text_file:
+        with open(f"{path_config.TEST_STUDENTS_DIR_PATH}/{filename}", "r") as text_file:
             json_data = json.loads(text_file.read())
 
         return json_data
+
+    def generate_data(self, documents_to_publish: int):
+        for document in range(documents_to_publish):
+            input_student = DataGenerator.generate_base_input_model()
+            self.send_body(input_student)
 
     def send_body(self, body: dict) -> None:
         self._PUBLISHER.publish(json.dumps(body))

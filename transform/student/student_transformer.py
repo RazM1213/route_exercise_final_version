@@ -36,7 +36,7 @@ class StudentTransformer(Transformer):
             if len(subject.grades):
                 avg = sum(subject.grades) / len(subject.grades)
             else:
-                avg = None
+                avg = 0
             subject_avg = OutputSubjectGrades(subject_name, avg)
             subjects_avg.append(subject_avg)
         return subjects_avg
@@ -54,5 +54,5 @@ class StudentTransformer(Transformer):
     def parse_total_avg(self, student_input):
         sum = 0
         for subject in self.parse_subject_grades(student_input):
-            sum += subject.avg
-        return sum / len(self.parse_subject_grades(student_input))
+            sum += subject.avg if subject.avg else 0
+        return sum / len(self.parse_subject_grades(student_input)) if len(self.parse_subject_grades(student_input)) else 0

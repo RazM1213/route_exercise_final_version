@@ -1,9 +1,6 @@
-import json
-
 import pika
 
 from config import rabbit_mq_config
-from tests.send_generated_input_script.data_generator import DataGenerator
 
 
 class RabbitMqPublisher:
@@ -20,8 +17,3 @@ class RabbitMqPublisher:
         )
 
         print("Published Message:\n {}".format(payload))
-
-    def generate_data(self, documents_to_publish: int):
-        for document in range(documents_to_publish):
-            input_student = f"{json.dumps(DataGenerator.generate_base_input_model())}"
-            self.publish(input_student)

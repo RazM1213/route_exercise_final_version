@@ -12,7 +12,7 @@ class Pipeline:
         self.StudentTransformer = StudentTransformer
 
     def callback(self, body):
-        string_body = body.decode('utf-8')
+        string_body = body.decode("utf-8")
         json_body = json.loads(string_body)
         try:
             output = self.StudentTransformer.parse_output(json_body)

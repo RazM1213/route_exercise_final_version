@@ -1,7 +1,7 @@
 from parameterized import parameterized
 
 from consts.json_fields import STUDENT_DETAILS, FIRST_NAME, LAST_NAME, ID, SUBJECT_GRADES, SUBJECT, GRADES, BIRTHDATE, AGE, GENDER, BEHAVIOUR_GRADE
-from tests.send_generated_input_script.data_generator import DataGenerator
+from tests.data_generator import DataGenerator
 from tests.test_base import TestBase
 
 

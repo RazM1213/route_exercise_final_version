@@ -1,5 +1,5 @@
 from consts.json_fields import STUDENT_DETAILS, FIRST_NAME, LAST_NAME, ID, SUBJECT_GRADES, SUBJECT, GRADES, BIRTHDATE, AGE, GENDER, BEHAVIOUR_GRADE
-from tests.send_generated_input_script.data_generator import DataGenerator
+from tests.data_generator import DataGenerator
 from tests.test_base import TestBase
 
 
@@ -30,7 +30,7 @@ class InvalidFieldValueTests(TestBase):
 
     def test_invalid_value_subject_body(self):
         input_model = DataGenerator.generate_base_input_model()
-        input_model[SUBJECT_GRADES][0][SUBJECT] = 'Test1'
+        input_model[SUBJECT_GRADES][0][SUBJECT] = "Test1"
 
         self.send_body(input_model)
 
@@ -46,7 +46,7 @@ class InvalidFieldValueTests(TestBase):
 
     def test_invalid_value_birtdate_body(self):
         input_model = DataGenerator.generate_base_input_model()
-        input_model[BIRTHDATE] = '30/02/2000'
+        input_model[BIRTHDATE] = "30/02/2000"
 
         self.send_body(input_model)
 
@@ -54,7 +54,7 @@ class InvalidFieldValueTests(TestBase):
 
     def test_invalid_value_birthdate_format_body(self):
         input_model = DataGenerator.generate_base_input_model()
-        input_model[BIRTHDATE] = '27.06.2000'
+        input_model[BIRTHDATE] = "27.06.2000"
 
         self.send_body(input_model)
 
@@ -70,7 +70,7 @@ class InvalidFieldValueTests(TestBase):
 
     def test_invalid_value_gender_body(self):
         input_model = DataGenerator.generate_base_input_model()
-        input_model[GENDER] = 'invalid_gender'
+        input_model[GENDER] = "invalid_gender"
 
         self.send_body(input_model)
 
