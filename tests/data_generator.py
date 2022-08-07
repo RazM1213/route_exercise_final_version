@@ -4,7 +4,7 @@ import string
 
 from consts import formats
 from consts.consts import GOOD_BEHAVIOUR_BOUNDARY, INPUT_MALE, INPUT_FEMALE, INPUT_OTHER
-from consts.formats import DATETIME_FORMAT
+from consts.formats import DATETIME_FORMAT, ELASTIC_DATETIME_FORMAT
 from consts.json_fields import STUDENT_DETAILS, FIRST_NAME, LAST_NAME, SUBJECT_GRADES, GRADES, GENDER, BEHAVIOUR_GRADE, ID, SUBJECT, BIRTHDATE, AGE, FULLNAME, AVERAGE, TOTAL_AVERAGE, IS_GOOD_BEHAVIOUR, NOTES
 from mappings.gender_mapping import gender_mapping
 
@@ -51,7 +51,7 @@ class DataGenerator:
             },
             SUBJECT_GRADES: subject_grades,
             TOTAL_AVERAGE: total_average,
-            BIRTHDATE: datetime.datetime.strftime(datetime.datetime.strptime(generated_input[BIRTHDATE], DATETIME_FORMAT), DATETIME_FORMAT),
+            BIRTHDATE: datetime.datetime.strftime(datetime.datetime.strptime(generated_input[BIRTHDATE], DATETIME_FORMAT), ELASTIC_DATETIME_FORMAT),
             AGE: generated_input[AGE],
             GENDER: gender_mapping[generated_input[GENDER]],
             IS_GOOD_BEHAVIOUR: generated_input[BEHAVIOUR_GRADE] >= GOOD_BEHAVIOUR_BOUNDARY

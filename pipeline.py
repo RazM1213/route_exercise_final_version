@@ -1,5 +1,6 @@
 import json
 
+from consts.consts import DECODE_FORMAT
 from read.reader import Reader
 from transform.transformer import Transformer
 from write.writer import Writer
@@ -12,7 +13,7 @@ class Pipeline:
         self.StudentTransformer = StudentTransformer
 
     def callback(self, body):
-        string_body = body.decode("utf-8")
+        string_body = body.decode(DECODE_FORMAT)
         json_body = json.loads(string_body)
         try:
             output = self.StudentTransformer.parse_output(json_body)

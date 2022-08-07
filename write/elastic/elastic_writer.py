@@ -6,7 +6,7 @@ from dataclasses import asdict
 import coloredlogs
 from elasticsearch import Elasticsearch
 
-from config import elastic_config
+from config import elastic_config, settings
 from consts.formats import DATETIME_FORMAT, ELASTIC_DATETIME_FORMAT
 from models.output import Output
 from write.writer import Writer
@@ -29,11 +29,18 @@ class ElasticWriter(Writer):
         json_query = json.loads(query)
         json_query["birthDate"] = datetime.datetime.strptime(json_query["birthDate"], DATETIME_FORMAT).strftime(ELASTIC_DATETIME_FORMAT)
 
-        ElasticWriter.get_elastic_client().index(
-            index=f"{datetime.datetime.strptime(output.birthDate, DATETIME_FORMAT).year}",
-            document=json.dumps(json_query),
-            id=output.studentDetails.id,
-        )
+        if settings.ENV == "test":
+            ElasticWriter.get_elastic_client().index(
+                index=f"test-{datetime.datetime.strptime(output.birthDate, DATETIME_FORMAT).year}",
+                document=json.dumps(json_query),
+                id=output.studentDetails.id,
+            )
+        else:
+            ElasticWriter.get_elastic_client().index(
+                index=f"{datetime.datetime.strptime(output.birthDate, DATETIME_FORMAT).year}",
+                document=json.dumps(json_query),
+                id=output.studentDetails.id,
+            )
 
         coloredlogs.install()
         logging.info(f"[X] Created a document in elasticsearch for: {output.studentDetails.fullName}")

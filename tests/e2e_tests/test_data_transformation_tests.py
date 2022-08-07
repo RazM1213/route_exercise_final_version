@@ -1,5 +1,6 @@
+import time
+
 from deepdiff import DeepDiff
-from more_itertools import one
 
 from consts.json_fields import NOTES, EXTRA_FIELD
 from tests.data_generator import DataGenerator
@@ -12,7 +13,8 @@ class DataTransformationTests(TestBase):
         expected_output = DataGenerator.parse_output(generated_input)
 
         self.send_body(generated_input)
-        actual_output = self.read_from_file(one(self.get_docs(expected_docs=1)))
+        time.sleep(1)
+        actual_output = self.read_from_elastic_document(generated_input)
 
         self.assertFalse(DeepDiff(expected_output, actual_output))
 
@@ -20,10 +22,10 @@ class DataTransformationTests(TestBase):
         generated_input = DataGenerator.generate_base_input_model()
         generated_input[NOTES] = "test"
         expected_output = DataGenerator.parse_output(generated_input)
-        expected_output[NOTES] = "test"
 
         self.send_body(generated_input)
-        actual_output = self.read_from_file(one(self.get_docs(expected_docs=1)))
+        time.sleep(1)
+        actual_output = self.read_from_elastic_document(generated_input)
 
         self.assertFalse(DeepDiff(expected_output, actual_output))
 
@@ -33,6 +35,7 @@ class DataTransformationTests(TestBase):
         expected_output = DataGenerator.parse_output(generated_input)
 
         self.send_body(generated_input)
-        actual_output = self.read_from_file(one(self.get_docs(expected_docs=1)))
+        time.sleep(1)
+        actual_output = self.read_from_elastic_document(generated_input)
 
         self.assertFalse(DeepDiff(expected_output, actual_output))

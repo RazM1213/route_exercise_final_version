@@ -1,3 +1,5 @@
+import time
+
 from parameterized import parameterized
 
 from consts.json_fields import STUDENT_DETAILS, FIRST_NAME, LAST_NAME, ID, SUBJECT_GRADES, SUBJECT, GRADES, BIRTHDATE, AGE, GENDER, BEHAVIOUR_GRADE
@@ -20,7 +22,9 @@ class MissingFieldTests(TestBase):
 
         self.send_body(input_model)
 
-        self.assertEqual(0, len(self.get_docs(expected_docs=0)))
+        time.sleep(2)
+
+        self.assertEqual(0, self.get_number_of_all_documents())
 
     @parameterized.expand([
         [FIRST_NAME],
@@ -33,7 +37,9 @@ class MissingFieldTests(TestBase):
 
         self.send_body(generated_input)
 
-        self.assertEqual(0, len(self.get_docs(expected_docs=0)))
+        time.sleep(2)
+
+        self.assertEqual(0, self.get_number_of_all_documents())
 
     @parameterized.expand([
         [SUBJECT],
@@ -45,4 +51,6 @@ class MissingFieldTests(TestBase):
 
         self.send_body(generated_input)
 
-        self.assertEqual(0, len(self.get_docs(expected_docs=0)))
+        time.sleep(2)
+
+        self.assertEqual(0, self.get_number_of_all_documents())

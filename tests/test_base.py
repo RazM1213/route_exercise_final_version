@@ -1,51 +1,57 @@
 import datetime
 import json
-import os
 from typing import List
 from unittest import TestCase
 
-from config import path_config
+from elasticsearch import Elasticsearch
+
+from config import elastic_config
+from config.elastic_config import HITS, SOURCE_DOCUMENT
+from consts.formats import DATETIME_FORMAT
+from consts.json_fields import BIRTHDATE, STUDENT_DETAILS, ID
 from tests.data_generator import DataGenerator
 from tests.rabbit_mq_publisher import RabbitMqPublisher
 
 
 class TestBase(TestCase):
     _PUBLISHER = RabbitMqPublisher()
+    _ES = Elasticsearch(
+        elastic_config.LOCAL_HOST,
+        basic_auth=(elastic_config.USERNAME, elastic_config.PASSWORD),
+    )
 
     def setUp(self):
-        self.get_docs(expected_docs=0)
-        os.chdir(path_config.TEST_STUDENTS_DIR_PATH)
-        if os.path.exists(path_config.TEST_STUDENTS_DIR_PATH):
-            for file in os.listdir(path_config.TEST_STUDENTS_DIR_PATH):
-                os.remove(os.path.join(path_config.TEST_STUDENTS_DIR_PATH, file))
+        for index in self._ES.indices.get(index="test-*"):
+            self._ES.indices.delete(index=index)
 
-    def read_from_file(self, filename: str) -> json:
-        self.get_docs(expected_docs=1)
-
-        with open(f"{path_config.TEST_STUDENTS_DIR_PATH}/{filename}", "r") as text_file:
-            json_data = json.loads(text_file.read())
-
-        return json_data
-
-    def generate_data(self, documents_to_publish: int):
-        for document in range(documents_to_publish):
-            input_student = DataGenerator.generate_base_input_model()
-            self.send_body(input_student)
-
-    def send_body(self, body: dict) -> None:
-        self._PUBLISHER.publish(json.dumps(body))
+    def read_from_elastic_document(self, input_dict: dict) -> json:
+        return self._ES.get(index=self.get_document_index(input_dict), id=self.get_document_id(input_dict))[SOURCE_DOCUMENT]
 
     @staticmethod
-    def get_docs(expected_docs: int, timeout_sec: int = 3000) -> List:
-        date = datetime.datetime.now() + datetime.timedelta(milliseconds=timeout_sec)
-        if not expected_docs:
-            while date > datetime.datetime.now():
-                if len(os.listdir(path_config.TEST_STUDENTS_DIR_PATH)):
-                    return os.listdir(path_config.TEST_STUDENTS_DIR_PATH)
-            return os.listdir(path_config.TEST_STUDENTS_DIR_PATH)
-        else:
-            while len(os.listdir()) != expected_docs and date > datetime.datetime.now():
-                result = os.listdir(path_config.TEST_STUDENTS_DIR_PATH)
-                if len(result) == expected_docs:
-                    return result
-            return os.listdir(path_config.TEST_STUDENTS_DIR_PATH)
+    def generate_data(documents_to_publish: int):
+        for document in range(documents_to_publish):
+            input_student = DataGenerator.generate_base_input_model()
+            TestBase.send_body(input_student)
+
+    @staticmethod
+    def send_body(body: dict):
+        TestBase._PUBLISHER.publish(json.dumps(body))
+
+    @staticmethod
+    def get_documents_from_index(index: str) -> List:
+        return TestBase._ES.search(index=index)[HITS][HITS]
+
+    @staticmethod
+    def get_document_index(input_dict: dict) -> str:
+        return f"test-{datetime.datetime.strptime(input_dict[BIRTHDATE], DATETIME_FORMAT).year}"
+
+    @staticmethod
+    def get_document_id(input_dict: dict) -> int:
+        return input_dict[STUDENT_DETAILS][ID]
+
+    @staticmethod
+    def get_number_of_all_documents() -> int:
+        sum = 0
+        for index in TestBase._ES.indices.get(index="test-*"):
+            sum += len(TestBase._ES.search(index=index)[HITS][HITS])
+        return sum

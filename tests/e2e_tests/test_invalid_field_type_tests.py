@@ -1,3 +1,5 @@
+import time
+
 from consts.json_fields import FIRST_NAME, LAST_NAME, ID, STUDENT_DETAILS, GRADES, SUBJECT_GRADES, BIRTHDATE, AGE, GENDER, BEHAVIOUR_GRADE, NOTES
 from tests.data_generator import DataGenerator
 from tests.test_base import TestBase
@@ -14,7 +16,9 @@ class InvalidFieldTypeTests(TestBase):
 
         self.send_body(generated_input)
 
-        self.assertEqual(0, len(self.get_docs(expected_docs=0)))
+        time.sleep(2)
+
+        self.assertEqual(0, self.get_number_of_all_documents())
 
     def test_invalid_type_first_name_body(self):
         generated_input = DataGenerator.generate_base_input_model()
@@ -22,7 +26,9 @@ class InvalidFieldTypeTests(TestBase):
 
         self.send_body(generated_input)
 
-        self.assertEqual(0, len(self.get_docs(expected_docs=0)))
+        time.sleep(2)
+
+        self.assertEqual(0, self.get_number_of_all_documents())
 
     def test_invalid_type_last_name_body(self):
         generated_input = DataGenerator.generate_base_input_model()
@@ -30,7 +36,9 @@ class InvalidFieldTypeTests(TestBase):
 
         self.send_body(generated_input)
 
-        self.assertEqual(0, len(self.get_docs(expected_docs=0)))
+        time.sleep(2)
+
+        self.assertEqual(0, self.get_number_of_all_documents())
 
     def test_invalid_type_id_body(self):
         generated_input = DataGenerator.generate_base_input_model()
@@ -38,7 +46,9 @@ class InvalidFieldTypeTests(TestBase):
 
         self.send_body(generated_input)
 
-        self.assertEqual(0, len(self.get_docs(expected_docs=0)))
+        time.sleep(2)
+
+        self.assertEqual(0, self.get_number_of_all_documents())
 
     def test_invalid_type_subject_grades_body(self):
         generated_input = DataGenerator.generate_base_input_model()
@@ -46,7 +56,9 @@ class InvalidFieldTypeTests(TestBase):
 
         self.send_body(generated_input)
 
-        self.assertEqual(0, len(self.get_docs(expected_docs=0)))
+        time.sleep(2)
+
+        self.assertEqual(0, self.get_number_of_all_documents())
 
     def test_invalid_type_grades_body(self):
         generated_input = DataGenerator.generate_base_input_model()
@@ -54,7 +66,9 @@ class InvalidFieldTypeTests(TestBase):
 
         self.send_body(generated_input)
 
-        self.assertEqual(0, len(self.get_docs(expected_docs=0)))
+        time.sleep(2)
+
+        self.assertEqual(0, self.get_number_of_all_documents())
 
     def test_invalid_type_birthdate_body(self):
         generated_input = DataGenerator.generate_base_input_model()
@@ -62,7 +76,9 @@ class InvalidFieldTypeTests(TestBase):
 
         self.send_body(generated_input)
 
-        self.assertEqual(0, len(self.get_docs(expected_docs=0)))
+        time.sleep(2)
+
+        self.assertEqual(0, self.get_number_of_all_documents())
 
     def test_invalid_type_age_body(self):
         generated_input = DataGenerator.generate_base_input_model()
@@ -70,7 +86,9 @@ class InvalidFieldTypeTests(TestBase):
 
         self.send_body(generated_input)
 
-        self.assertEqual(0, len(self.get_docs(expected_docs=0)))
+        time.sleep(2)
+
+        self.assertEqual(0, self.get_number_of_all_documents())
 
     def test_invalid_type_gender_body(self):
         generated_input = DataGenerator.generate_base_input_model()
@@ -78,7 +96,9 @@ class InvalidFieldTypeTests(TestBase):
 
         self.send_body(generated_input)
 
-        self.assertEqual(0, len(self.get_docs(expected_docs=0)))
+        time.sleep(2)
+
+        self.assertEqual(0, self.get_number_of_all_documents())
 
     def test_invalid_type_behaviour_grade_body(self):
         generated_input = DataGenerator.generate_base_input_model()
@@ -86,7 +106,9 @@ class InvalidFieldTypeTests(TestBase):
 
         self.send_body(generated_input)
 
-        self.assertEqual(0, len(self.get_docs(expected_docs=0)))
+        time.sleep(2)
+
+        self.assertEqual(0, self.get_number_of_all_documents())
 
     def test_invalid_type_notes_body(self):
         generated_input = DataGenerator.generate_base_input_model()
@@ -94,4 +116,6 @@ class InvalidFieldTypeTests(TestBase):
 
         self.send_body(generated_input)
 
-        self.assertEqual(0, len(self.get_docs(expected_docs=0)))
+        time.sleep(2)
+
+        self.assertEqual(0, self.get_number_of_all_documents())

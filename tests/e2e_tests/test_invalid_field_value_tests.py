@@ -1,3 +1,5 @@
+import time
+
 from consts.json_fields import STUDENT_DETAILS, FIRST_NAME, LAST_NAME, ID, SUBJECT_GRADES, SUBJECT, GRADES, BIRTHDATE, AGE, GENDER, BEHAVIOUR_GRADE
 from tests.data_generator import DataGenerator
 from tests.test_base import TestBase
@@ -10,7 +12,9 @@ class InvalidFieldValueTests(TestBase):
 
         self.send_body(input_model)
 
-        self.assertEqual(0, len(self.get_docs(expected_docs=0)))
+        time.sleep(2)
+
+        self.assertEqual(0, self.get_number_of_all_documents())
 
     def test_invalid_value_last_name_body(self):
         input_model = DataGenerator.generate_base_input_model()
@@ -18,7 +22,9 @@ class InvalidFieldValueTests(TestBase):
 
         self.send_body(input_model)
 
-        self.assertEqual(0, len(self.get_docs(expected_docs=0)))
+        time.sleep(2)
+
+        self.assertEqual(0, self.get_number_of_all_documents())
 
     def test_invalid_value_id_body(self):
         input_model = DataGenerator.generate_base_input_model()
@@ -26,7 +32,9 @@ class InvalidFieldValueTests(TestBase):
 
         self.send_body(input_model)
 
-        self.assertEqual(0, len(self.get_docs(expected_docs=0)))
+        time.sleep(2)
+
+        self.assertEqual(0, self.get_number_of_all_documents())
 
     def test_invalid_value_subject_body(self):
         input_model = DataGenerator.generate_base_input_model()
@@ -34,7 +42,9 @@ class InvalidFieldValueTests(TestBase):
 
         self.send_body(input_model)
 
-        self.assertEqual(0, len(self.get_docs(expected_docs=0)))
+        time.sleep(2)
+
+        self.assertEqual(0, self.get_number_of_all_documents())
 
     def test_invalid_value_grades_body(self):
         input_model = DataGenerator.generate_base_input_model()
@@ -42,7 +52,9 @@ class InvalidFieldValueTests(TestBase):
 
         self.send_body(input_model)
 
-        self.assertEqual(0, len(self.get_docs(expected_docs=0)))
+        time.sleep(2)
+
+        self.assertEqual(0, self.get_number_of_all_documents())
 
     def test_invalid_value_birtdate_body(self):
         input_model = DataGenerator.generate_base_input_model()
@@ -50,7 +62,9 @@ class InvalidFieldValueTests(TestBase):
 
         self.send_body(input_model)
 
-        self.assertEqual(0, len(self.get_docs(expected_docs=0)))
+        time.sleep(2)
+
+        self.assertEqual(0, self.get_number_of_all_documents())
 
     def test_invalid_value_birthdate_format_body(self):
         input_model = DataGenerator.generate_base_input_model()
@@ -58,7 +72,9 @@ class InvalidFieldValueTests(TestBase):
 
         self.send_body(input_model)
 
-        self.assertEqual(0, len(self.get_docs(expected_docs=0)))
+        time.sleep(2)
+
+        self.assertEqual(0, self.get_number_of_all_documents())
 
     def test_invalid_value_age_body(self):
         input_model = DataGenerator.generate_base_input_model()
@@ -66,7 +82,9 @@ class InvalidFieldValueTests(TestBase):
 
         self.send_body(input_model)
 
-        self.assertEqual(0, len(self.get_docs(expected_docs=0)))
+        time.sleep(2)
+
+        self.assertEqual(0, self.get_number_of_all_documents())
 
     def test_invalid_value_gender_body(self):
         input_model = DataGenerator.generate_base_input_model()
@@ -74,7 +92,9 @@ class InvalidFieldValueTests(TestBase):
 
         self.send_body(input_model)
 
-        self.assertEqual(0, len(self.get_docs(expected_docs=0)))
+        time.sleep(2)
+
+        self.assertEqual(0, self.get_number_of_all_documents())
 
     def test_invalid_value_behaviour_grade_body(self):
         input_model = DataGenerator.generate_base_input_model()
@@ -82,4 +102,6 @@ class InvalidFieldValueTests(TestBase):
 
         self.send_body(input_model)
 
-        self.assertEqual(0, len(self.get_docs(expected_docs=0)))
+        time.sleep(2)
+
+        self.assertEqual(0, self.get_number_of_all_documents())
