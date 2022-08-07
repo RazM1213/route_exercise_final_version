@@ -1,4 +1,6 @@
 QUEUE = "student_data"
+SECOND_QUEUE = "student_data_2"
 HOST = "localhost"
 ROUTING_KEY = "student.data"
+SECOND_ROUTING_KEY = "student.data.2"
 EXCHANGE = "student"

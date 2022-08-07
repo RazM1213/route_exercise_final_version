@@ -5,7 +5,7 @@ from unittest import TestCase
 
 from elasticsearch import Elasticsearch
 
-from config import elastic_config
+from config import elastic_config, rabbit_mq_config
 from config.elastic_config import HITS, SOURCE_DOCUMENT
 from consts.formats import DATETIME_FORMAT
 from consts.json_fields import BIRTHDATE, STUDENT_DETAILS, ID
@@ -14,7 +14,7 @@ from tests.rabbit_mq_publisher import RabbitMqPublisher
 
 
 class TestBase(TestCase):
-    _PUBLISHER = RabbitMqPublisher()
+    _PUBLISHER = RabbitMqPublisher(rabbit_mq_config.QUEUE, rabbit_mq_config.ROUTING_KEY)
     _ES = Elasticsearch(
         elastic_config.LOCAL_HOST,
         basic_auth=(elastic_config.USERNAME, elastic_config.PASSWORD),

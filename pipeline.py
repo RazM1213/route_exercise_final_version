@@ -7,8 +7,8 @@ from write.writer import Writer
 
 
 class Pipeline:
-    def __init__(self, reader: Reader, writer: Writer, StudentTransformer: Transformer):
-        self.reader = reader
+    def __init__(self, writer: Writer, StudentTransformer: Transformer, *readers: Reader):
+        self.readers = readers
         self.writer = writer
         self.StudentTransformer = StudentTransformer
 
@@ -23,4 +23,5 @@ class Pipeline:
             print(ex)
 
     def run(self):
-        self.reader.listen(callback=self.callback)
+        for reader in self.readers[0]:
+            reader.listen(callback=self.callback)
