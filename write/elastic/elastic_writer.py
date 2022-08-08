@@ -8,6 +8,7 @@ from elasticsearch import Elasticsearch
 
 from config import elastic_config, settings
 from consts.formats import DATETIME_FORMAT, ELASTIC_DATETIME_FORMAT
+from consts.json_fields import BIRTHDATE
 from models.output import Output
 from write.writer import Writer
 
@@ -27,7 +28,7 @@ class ElasticWriter(Writer):
         query = json.dumps(asdict(output, dict_factory=lambda x: {k: v for (k, v) in x if v is not None}), indent=4)
 
         json_query = json.loads(query)
-        json_query["birthDate"] = datetime.datetime.strptime(json_query["birthDate"], DATETIME_FORMAT).strftime(ELASTIC_DATETIME_FORMAT)
+        json_query[BIRTHDATE] = datetime.datetime.strptime(json_query[BIRTHDATE], DATETIME_FORMAT).strftime(ELASTIC_DATETIME_FORMAT)
 
         if settings.ENV == "test":
             ElasticWriter.get_elastic_client().index(
