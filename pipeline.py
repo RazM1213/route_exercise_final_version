@@ -19,7 +19,6 @@ class Pipeline:
         if type(body) == ConsumerRecord:
             json_body = json.loads(body.value.decode(DECODE_FORMAT))
         else:
-            # string_body = body.encode(DECODE_FORMAT)
             json_body = json.loads(body)
 
         try:
@@ -30,12 +29,13 @@ class Pipeline:
             print(ex)
 
     def run(self):
-        if len(self.readers[0]) > 1:
-            threads = []
-            for reader in self.readers[0]:
-                threads.append(threading.Thread(target=reader.listen, args=[self.callback]))
+        if type(self.readers[0]) == list:
+            if len(self.readers[0]) > 1:
+                threads = []
+                for reader in self.readers[0]:
+                    threads.append(threading.Thread(target=reader.listen, args=[self.callback]))
 
-            for thread in threads:
-                thread.start()
+                for thread in threads:
+                    thread.start()
         else:
             self.readers[0].listen(callback=self.callback)
