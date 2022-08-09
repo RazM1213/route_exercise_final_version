@@ -9,9 +9,9 @@ class KafkaReader(Reader):
         self.topic = topic
         self.bootstrap_server = bootstrap_server
         self.consumer = KafkaConsumer(self.topic, bootstrap_servers=self.bootstrap_server)
-        print("Kafka server started...")
-        print(f"[X] Waiting for data on topic: {self.topic}...")
 
     def listen(self, callback):
+        print("Kafka server started...")
+        print(f"[X] Waiting for data on topic: {self.topic}...")
         for message in self.consumer:
             callback(message)

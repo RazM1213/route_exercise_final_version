@@ -1,7 +1,7 @@
 import json
+import threading
 
 from kafka.consumer.fetcher import ConsumerRecord
-from more_itertools import one
 
 from consts.consts import DECODE_FORMAT
 from read.reader import Reader
@@ -19,8 +19,8 @@ class Pipeline:
         if type(body) == ConsumerRecord:
             json_body = json.loads(body.value.decode(DECODE_FORMAT))
         else:
-            string_body = body.decode(DECODE_FORMAT)
-            json_body = json.loads(string_body)
+            # string_body = body.encode(DECODE_FORMAT)
+            json_body = json.loads(body)
 
         try:
             output = self.StudentTransformer.parse_output(json_body)
@@ -31,7 +31,11 @@ class Pipeline:
 
     def run(self):
         if len(self.readers[0]) > 1:
+            threads = []
             for reader in self.readers[0]:
-                reader.listen(callback=self.callback)
+                threads.append(threading.Thread(target=reader.listen, args=[self.callback]))
+
+            for thread in threads:
+                thread.start()
         else:
             self.readers[0].listen(callback=self.callback)
