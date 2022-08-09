@@ -5,16 +5,18 @@ from unittest import TestCase
 
 from elasticsearch import Elasticsearch
 
-from config import elastic_config, rabbit_mq_config
+from config import elastic_config
 from config.elastic_config import HITS, SOURCE_DOCUMENT
 from consts.formats import DATETIME_FORMAT
 from consts.json_fields import BIRTHDATE, STUDENT_DETAILS, ID
 from tests.data_generator import DataGenerator
+from tests.kafka_publisher import KafkaPublisher
 from tests.rabbit_mq_publisher import RabbitMqPublisher
 
 
 class TestBase(TestCase):
-    _PUBLISHER = RabbitMqPublisher(rabbit_mq_config.QUEUE, rabbit_mq_config.ROUTING_KEY)
+    # _PUBLISHER = RabbitMqPublisher(rabbit_mq_config.QUEUE, rabbit_mq_config.ROUTING_KEY)
+    _PUBLISHER = KafkaPublisher()
     _ES = Elasticsearch(
         elastic_config.LOCAL_HOST,
         basic_auth=(elastic_config.USERNAME, elastic_config.PASSWORD),
@@ -35,7 +37,10 @@ class TestBase(TestCase):
 
     @staticmethod
     def send_body(body: dict):
-        TestBase._PUBLISHER.publish(json.dumps(body))
+        if type(TestBase._PUBLISHER) == RabbitMqPublisher:
+            TestBase._PUBLISHER.publish(json.dumps(body))
+        else:
+            TestBase._PUBLISHER.publish(body)
 
     @staticmethod
     def get_documents_from_index(index: str) -> List:
