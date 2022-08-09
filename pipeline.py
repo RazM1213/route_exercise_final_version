@@ -30,8 +30,8 @@ class Pipeline:
             print(ex)
 
     def run(self):
-        if len(self.readers) > 1:
+        if len(self.readers[0]) > 1:
             for reader in self.readers[0]:
                 reader.listen(callback=self.callback)
         else:
-            one(self.readers).listen(callback=self.callback)
+            self.readers[0].listen(callback=self.callback)
