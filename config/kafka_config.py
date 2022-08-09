@@ -1,2 +1,2 @@
 BOOTSTRAP_SERVER = "localhost:9092"
-TOPIC = "TestTopic"
+TOPIC = "StudentTopic"

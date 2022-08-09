@@ -1,9 +1,7 @@
-from config.kafka_config import TOPIC, BOOTSTRAP_SERVER
-from consts.consts import DECODE_FORMAT
-from pipeline import Pipeline
-from read.reader import Reader
-
 from kafka.consumer import KafkaConsumer
+
+from config.kafka_config import TOPIC, BOOTSTRAP_SERVER
+from read.reader import Reader
 
 
 class KafkaReader(Reader):
@@ -17,8 +15,3 @@ class KafkaReader(Reader):
     def listen(self, callback):
         for message in self.consumer:
             callback(message)
-
-
-if __name__ == "__main__":
-    kafka_reader = KafkaReader()
-    kafka_reader.listen(callback=Pipeline.callback)
