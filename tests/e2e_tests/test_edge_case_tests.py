@@ -2,6 +2,7 @@ import time
 
 from consts.json_fields import EXTRA_FIELD, BIRTHDATE, AGE, STUDENT_DETAILS, FIRST_NAME, LAST_NAME, BEHAVIOUR_GRADE, IS_GOOD_BEHAVIOUR, SUBJECT_GRADES, GRADES, AVERAGE
 from tests.data_generator import DataGenerator
+from tests.kafka_publisher import KafkaPublisher
 from tests.test_base import TestBase
 
 
@@ -101,3 +102,53 @@ class EdgeCaseTests(TestBase):
 
         self.assertEqual(1, self.get_number_of_all_documents())
         self.assertEqual(0, actual_output[SUBJECT_GRADES][0][AVERAGE])
+
+    def test_send_same_valid_body_to_both_queues(self):
+        generated_input = DataGenerator.generate_base_input_model()
+
+        self.send_body(generated_input)
+        time.sleep(2)
+        kafka_publisher = KafkaPublisher()
+        kafka_publisher.publish(generated_input)
+        time.sleep(2)
+
+        self.assertEqual(1, self.get_number_of_all_documents())
+
+    def test_send_different_valid_body_to_both_queues(self):
+        generated_input_1 = DataGenerator.generate_base_input_model()
+        generated_input_2 = DataGenerator.generate_base_input_model()
+
+        self.send_body(generated_input_1)
+        time.sleep(2)
+        kafka_publisher = KafkaPublisher()
+        kafka_publisher.publish(generated_input_2)
+        time.sleep(2)
+
+        self.assertEqual(2, self.get_number_of_all_documents())
+
+    def test_send_same_invalid_body_to_both_queues(self):
+        generated_input = DataGenerator.generate_base_input_model()
+        generated_input[BIRTHDATE] = None
+
+        self.send_body(generated_input)
+        time.sleep(2)
+        kafka_publisher = KafkaPublisher()
+        kafka_publisher.publish(generated_input)
+        time.sleep(2)
+
+        self.assertEqual(0, self.get_number_of_all_documents())
+
+    def test_send_different_invalid_body_to_both_queues(self):
+        generated_input_1 = DataGenerator.generate_base_input_model()
+        generated_input_1[STUDENT_DETAILS][FIRST_NAME] = None
+        generated_input_2 = DataGenerator.generate_base_input_model()
+        generated_input_2[STUDENT_DETAILS][LAST_NAME] = None
+
+        self.send_body(generated_input_1)
+        time.sleep(2)
+        kafka_publisher = KafkaPublisher()
+        kafka_publisher.publish(generated_input_2)
+        time.sleep(2)
+
+        self.assertEqual(0, self.get_number_of_all_documents())
+

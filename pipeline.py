@@ -10,10 +10,10 @@ from write.writer import Writer
 
 
 class Pipeline:
-    def __init__(self, writer: Writer, StudentTransformer: Transformer, *readers: Reader):
+    def __init__(self, writer: Writer, transformer: Transformer, *readers: Reader):
         self.readers = readers
         self.writer = writer
-        self.StudentTransformer = StudentTransformer
+        self.transformer = transformer
 
     def callback(self, body):
         if type(body) == ConsumerRecord:
@@ -22,7 +22,7 @@ class Pipeline:
             json_body = json.loads(body)
 
         try:
-            output = self.StudentTransformer.parse_output(json_body)
+            output = self.transformer.parse_output(json_body)
             if output is not None:
                 self.writer.write(output)
         except Exception as ex:

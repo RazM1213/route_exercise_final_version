@@ -4,6 +4,7 @@ from kafka.producer import KafkaProducer
 
 from config.kafka_config import BOOTSTRAP_SERVER, TOPIC
 from consts.consts import DECODE_FORMAT
+from consts.json_fields import STUDENT_DETAILS, FIRST_NAME, LAST_NAME, SUBJECT_GRADES, SUBJECT, GRADES
 from tests.data_generator import DataGenerator
 
 
@@ -20,6 +21,10 @@ class KafkaPublisher:
 
 if __name__ == "__main__":
     generated_message = DataGenerator.generate_base_input_model()
+    generated_message[STUDENT_DETAILS][FIRST_NAME] = "Bill"
+    generated_message[STUDENT_DETAILS][LAST_NAME] = "Gates"
+    generated_message[SUBJECT_GRADES][0][SUBJECT] = "Computer Science"
+    generated_message[SUBJECT_GRADES][0][GRADES] = [100, 100, 100]
 
     publisher = KafkaPublisher()
     publisher.publish(generated_message)
