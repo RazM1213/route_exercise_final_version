@@ -1,0 +1,2 @@
+DATETIME_FORMAT = "%d/%m/%Y"
+ELASTIC_DATETIME_FORMAT = "%Y-%m-%d"
